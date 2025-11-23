@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="target/generated-sources/annotations">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/fr.tp.inf112.projects.robotsim"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/canvas-viewer.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/graph.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/antlr4-runtime-4.12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/apfloat-1.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/commons-lang3-3.12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/commons-text-1.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/dsiutils-2.7.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/fastutil-8.5.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/guava-31.1-jre.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-core-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-demo-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-ext-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-guava-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-io-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-opt-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgrapht-unimi-dsi-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jgraphx-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jheaps-0.14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/jsap-20210129.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/slf4j-api-2.0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/sux4j-5.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/webgraph-3.6.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gjour/eclipse-workspace/fr.tp.slr201.projects.robotsim.service.simulation/libs/jgrapht/lib/webgraph-big-3.7.0.jar"/>
+	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

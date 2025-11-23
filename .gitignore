@@ -22,17 +22,6 @@ pom.xml.versionsBackup
 release.properties
 dependency-reduced-pom.xml
 
-# Eclipse
-.classpath
-.project
-.settings/
-.checkstyle
-.factorypath
-
-# IntelliJ IDEA
-.idea/
-*.iml
-
 # OS specific
 .DS_Store
 Thumbs.db
