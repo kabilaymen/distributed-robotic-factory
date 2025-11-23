@@ -1,0 +1,49 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+*.log.*
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs
+hs_err_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+
+# Eclipse
+.classpath
+.project
+.settings/
+.checkstyle
+.factorypath
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Project Specific
+server_factories/
+kafka-logs/
+
+**/javadoc/
+**/docs/
+**/doc/
+**/3rd-party-licenses/
+
+!*.jar

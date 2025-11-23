@@ -1,0 +1,8 @@
+/bin/
+
+**/javadoc/
+**/docs/
+**/doc/
+**/3rd-party-licenses/
+
+!*.jar
