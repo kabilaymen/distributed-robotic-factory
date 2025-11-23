@@ -1,6 +1,6 @@
 # Robotic Factory Simulator (RFS) - Distributed Architecture
 
-**Course:** SLR201 - Object Oriented Software Engineering / Distributed Systems  
+**Course:** 4SLR01 - Object Oriented Software Engineering / Distributed Systems  
 
 ## Project Overview
 
