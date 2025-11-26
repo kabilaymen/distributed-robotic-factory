@@ -32,6 +32,7 @@ public class RemoteSimulatorController extends SimulatorController {
 	private final LocalFactoryModelChangedNotifier localNotifier = new LocalFactoryModelChangedNotifier();
 
 	private volatile boolean animationRunning = false;
+	private boolean isFrameUpdate = false; // Flag to distinguish animation updates from file loading
 	private FactorySimulationEventConsumer eventConsumer;
 	private JDialog loadingDialog;
 
@@ -44,19 +45,56 @@ public class RemoteSimulatorController extends SimulatorController {
 		super(factoryModel, persistenceManager);
 		this.serviceBaseUrl = serviceUrl;
 		this.httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
+		
+		// Ensure any existing simulation on the server for this initial ID is cleared
+		if (factoryModel != null && factoryModel.getId() != null) {
+			resetServerSimulation(factoryModel.getId());
+		}
 	}
 
 	public void updateCanvasDuringAnimation(final Factory remoteFactoryModel) {
 		SwingUtilities.invokeLater(() -> {
-			super.setCanvas(remoteFactoryModel);
-			remoteFactoryModel.setNotifier(localNotifier);
-			localNotifier.notifyObservers();
+			isFrameUpdate = true; // Lock: This is an animation update, not a user load
+			try {
+				super.setCanvas(remoteFactoryModel);
+				remoteFactoryModel.setNotifier(localNotifier);
+				localNotifier.notifyObservers();
+			} finally {
+				isFrameUpdate = false; // Unlock
+			}
 		});
 	}
 
 	@Override
 	public void setCanvas(final Canvas canvasModel) {
+		// If this is NOT an animation frame (i.e., User clicked Open -> Load), perform cleanup
+		if (!isFrameUpdate) {
+			LOGGER.info("User loading new canvas. cleaning up previous state...");
+
+			// 1. Immediately stop any running local consumer
+			if (eventConsumer != null) {
+				eventConsumer.stop();
+			}
+			animationRunning = false;
+
+			// 2. CRITICAL FIX: Stop the CURRENTLY running simulation on the server
+			Canvas oldCanvas = getCanvas();
+			if (oldCanvas != null && oldCanvas.getId() != null) {
+				LOGGER.info("Stopping previous simulation on server: " + oldCanvas.getId());
+				resetServerSimulation(oldCanvas.getId());
+			}
+
+			// 3. Ensure the NEW simulation ID is also clean on the server
+			if (canvasModel != null && canvasModel.getId() != null) {
+				// Avoid double-reset if IDs are identical (reloading same file)
+				if (oldCanvas == null || !canvasModel.getId().equals(oldCanvas.getId())) {
+					resetServerSimulation(canvasModel.getId());
+				}
+			}
+		}
+
 		super.setCanvas(canvasModel);
+		
 		if (canvasModel instanceof Factory) {
 			((Factory) canvasModel).setNotifier(localNotifier);
 		}
@@ -130,25 +168,51 @@ public class RemoteSimulatorController extends SimulatorController {
 	public void stopAnimation() {
 		if (!animationRunning)
 			return;
-		String factoryId = getCanvas().getId();
+		
+		final String factoryId = getCanvas().getId();
 
 		backgroundExecutor.submit(() -> {
 			try {
-				if (eventConsumer != null)
+				LOGGER.info("1. Pausing server simulation to stabilize state...");
+				URI stopUri = new URI(serviceBaseUrl + "/stop/" + factoryId);
+				httpClient.send(HttpRequest.newBuilder().uri(stopUri).GET().build(),
+						HttpResponse.BodyHandlers.discarding());
+
+				Thread.sleep(200);
+
+				if (eventConsumer != null) {
 					eventConsumer.stop();
+				}
 				animationRunning = false;
 
-				LOGGER.info("Persisting state before reset...");
-				if (getCanvas() != null)
-					getPersistenceManager().persist(getCanvas());
+				LOGGER.info("2. Persisting state before reset...");
+				if (getCanvas() != null) {
+					synchronized (getCanvas()) {
+						getPersistenceManager().persist(getCanvas());
+					}
+				}
 
-				LOGGER.info("Resetting server...");
-				URI uri = new URI(serviceBaseUrl + "/reset/" + factoryId);
-				httpClient.send(HttpRequest.newBuilder().uri(uri).DELETE().build(),
+				LOGGER.info("3. Resetting server...");
+				URI resetUri = new URI(serviceBaseUrl + "/reset/" + factoryId);
+				httpClient.send(HttpRequest.newBuilder().uri(resetUri).DELETE().build(),
 						HttpResponse.BodyHandlers.discarding());
 
 			} catch (Exception e) {
 				LOGGER.log(Level.SEVERE, "Stop failed", e);
+			}
+		});
+	}
+	
+	private void resetServerSimulation(String factoryId) {
+		// Queued in background executor to ensure it runs before any subsequent 'Start' command
+		backgroundExecutor.submit(() -> {
+			try {
+				LOGGER.info("Requesting clean server state for ID: " + factoryId);
+				URI uri = new URI(serviceBaseUrl + "/reset/" + factoryId);
+				httpClient.send(HttpRequest.newBuilder().uri(uri).DELETE().build(),
+						HttpResponse.BodyHandlers.discarding());
+			} catch (Exception e) {
+				LOGGER.log(Level.WARNING, "Failed to reset server simulation", e);
 			}
 		});
 	}

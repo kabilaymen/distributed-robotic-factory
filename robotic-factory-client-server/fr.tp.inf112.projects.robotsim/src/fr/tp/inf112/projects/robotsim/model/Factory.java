@@ -1,5 +1,7 @@
 package fr.tp.inf112.projects.robotsim.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,18 +49,10 @@ public class Factory extends Component implements Canvas, Observable {
 		LOGGER.config("Factory created: " + name + " (" + width + "x" + height + ")");
 	}
 
-	/**
-	 * Sets the notification strategy for this factory.
-	 * 
-	 * @param notifier The notifier to use.
-	 */
 	public void setNotifier(FactoryModelChangedNotifier notifier) {
 		this.notifier = notifier;
 	}
 
-	/**
-	 * DEBUG METHOD: Logs the current state of all mobile components
-	 */
 	public synchronized void debugLogMobileComponents() {
 		LOGGER.info("=== MOBILE COMPONENTS STATE ===");
 		for (final Component component : getComponents()) {
@@ -70,9 +64,6 @@ public class Factory extends Component implements Canvas, Observable {
 		LOGGER.info("=== END MOBILE COMPONENTS ===");
 	}
 
-	/**
-	 * DEBUG METHOD: Check if a position has any mobile component (for debugging)
-	 */
 	public synchronized String debugCheckPosition(Position pos) {
 		Component blocker = getMobileComponentAt(pos, null);
 		if (blocker != null) {
@@ -174,30 +165,20 @@ public class Factory extends Component implements Canvas, Observable {
 		return simulationStarted;
 	}
 
-	/**
-	 * Synchronized method to move a component. It checks if the target position is
-	 * free before moving. * @param motion The motion object with current and target
-	 * positions
-	 * 
-	 * @param componentToMove The component that is moving
-	 * @return The displacement (0 if the move failed)
-	 */
 	public synchronized int moveComponent(final Motion motion, final Component componentToMove) {
 
 		Position targetPos = motion.getTargetPosition();
 		PositionedShape componentShape = componentToMove.getPositionedShape();
 
-		// Create a shape at the target position to check for collisions
 		RectangularShape targetShape = new RectangularShape(targetPos.getxCoordinate(), targetPos.getyCoordinate(),
 				componentShape.getWidth(), componentShape.getHeight());
-		// Check if the targeted position is free of other mobile components
+
 		if (hasMobileComponentAt(targetShape, componentToMove)) {
 			LOGGER.finest("Factory blocked " + componentToMove.getName() + " from moving to " + targetPos);
 			return 0;
 		}
 
 		LOGGER.finest("Factory allowing " + componentToMove.getName() + " to move to " + targetPos);
-		// Position is free, execute the move
 		return motion.moveToTarget();
 	}
 
@@ -260,5 +241,13 @@ public class Factory extends Component implements Canvas, Observable {
 		}
 
 		return null;
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		if (this.notifier == null) {
+			this.notifier = new LocalFactoryModelChangedNotifier();
+		}
+		this.simulationStarted = false;
 	}
 }
